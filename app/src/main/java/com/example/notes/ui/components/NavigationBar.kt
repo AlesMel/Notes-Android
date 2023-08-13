@@ -22,7 +22,7 @@ private fun BackButton() {
 
 @Composable()
 private fun HomeButton() {
-    ResizedNavigationButtons({}, R.drawable.home, 24.dp, 24.dp)
+    ResizedNavigationButtons({}, R.drawable.home_icon, 24.dp, 24.dp)
 }
 
 @Composable

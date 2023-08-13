@@ -1,25 +1,29 @@
 package com.example.notes.ui.components
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalAbsoluteTonalElevation
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.notes.R
@@ -28,25 +32,28 @@ import com.example.notes.R
 fun BottomNavigationBar() {
 
     val items = listOf(
+        BottomNavItem.Notes,
         BottomNavItem.Home,
-        BottomNavItem.List,
-        BottomNavItem.Analytics,
-        BottomNavItem.Profile
-    )
-    Divider(
-        color = Color.Black,
-        thickness = 1.dp,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 2.dp)
+        BottomNavItem.Settings
     )
 
+    var selectedItem by remember { mutableStateOf(items[1]) }
+
     NavigationBar (
-        containerColor = Color.Transparent,
+        containerColor  = colorResource(id = R.color.BottomNavigationBarIconColor),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(15.dp, 15.dp, 0.dp, 0.dp))
     ) {
         items.forEach { item ->
             AddItem(
-                screen = item
+                screen = item,
+                selected = item == selectedItem,
+                onItemSelected = { isSelected ->
+                    if (isSelected) {
+                        selectedItem = item
+                    }
+                }
             )
         }
     }
@@ -54,25 +61,34 @@ fun BottomNavigationBar() {
 
 @Composable
 fun RowScope.AddItem(
-    screen: BottomNavItem
+    screen: BottomNavItem,
+    selected: Boolean,
+    onItemSelected: (Boolean) -> Unit
 ) {
     NavigationBarItem(
         label = {
-            Text(screen.title, color = Color.Black)
+            if (selected) {
+                Text(screen.title, color = Color.White)
+            }
         },
         icon = {
             Icon(
                 painterResource(id = screen.icon),
                 contentDescription = screen.title,
-                modifier = Modifier.size(16.dp),
+                modifier = if (selected) Modifier.size(32.dp) else Modifier.size(24.dp),
+                tint = Color.White
             )
         },
-        selected = false,
-        alwaysShowLabel = true,
-        onClick = { /*TODO*/ },
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(15.dp, 15.dp, 0.dp, 0.dp))
+        selected = selected,
+        alwaysShowLabel = false,
+        onClick = {
+              onItemSelected(!selected)
+        },
+        colors = androidx.compose.material3.NavigationBarItemDefaults
+            .colors(
+                selectedIconColor = Color.White,
+                indicatorColor =  colorResource(id = R.color.BottomNavigationBarIconColor)
+            )
     )
 }
 
@@ -83,24 +99,18 @@ sealed class BottomNavItem(
     object Home :
         BottomNavItem(
             "Home",
-            R.drawable.home
+            R.drawable.home_icon
         )
 
-    object List :
+    object Notes :
         BottomNavItem(
-            "List",
-            R.drawable.home
+            "Notes",
+            R.drawable.notes_icon
         )
 
-    object Analytics :
+    object Settings :
         BottomNavItem(
-            "Analytics",
-            R.drawable.home
-        )
-
-    object Profile :
-        BottomNavItem(
-            "Profile",
-            R.drawable.home
+            "Settings",
+            R.drawable.settings_icon
         )
 }
