@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -32,10 +33,16 @@ fun BottomNavigationBar() {
         BottomNavItem.Analytics,
         BottomNavItem.Profile
     )
+    Divider(
+        color = Color.Black,
+        thickness = 1.dp,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 2.dp)
+    )
 
     NavigationBar (
         containerColor = Color.Transparent,
-        contentColor = Color.Transparent
     ) {
         items.forEach { item ->
             AddItem(
@@ -51,22 +58,20 @@ fun RowScope.AddItem(
 ) {
     NavigationBarItem(
         label = {
-            Text(screen.title)
+            Text(screen.title, color = Color.Black)
         },
         icon = {
             Icon(
                 painterResource(id = screen.icon),
                 contentDescription = screen.title,
-                tint = Color.Black,
                 modifier = Modifier.size(16.dp),
             )
         },
-        selected = true,
-        alwaysShowLabel = false,
+        selected = false,
+        alwaysShowLabel = true,
         onClick = { /*TODO*/ },
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White) // Barva pozadí
             .clip(RoundedCornerShape(15.dp, 15.dp, 0.dp, 0.dp))
     )
 }
