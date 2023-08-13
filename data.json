@@ -1,0 +1,48 @@
+{
+  "users": [
+    {
+      "user_id": 1,
+      "username": "john_doe",
+      "notes": [
+        {
+          "note_id": 1,
+          "note_title": "Project Kickoff",
+          "note_importancy": 2,
+          "note_detail": "Discuss project scope, timeline, and initial tasks.",
+          "note_description": "Important meeting to set the direction of the project.",
+          "note_tags": ["project", "meeting", "kickoff"]
+        },
+        {
+          "note_id": 2,
+          "note_title": "Travel Plans",
+          "note_importancy": 1,
+          "note_detail": "Book flights, reserve accommodation, plan daily itinerary.",
+          "note_description": "Exciting trip to explore new destinations and cultures.",
+          "note_tags": ["travel", "vacation", "adventure"]
+        }
+      ]
+    },
+    {
+      "user_id": 2,
+      "username": "jane_smith",
+      "notes": [
+        {
+          "note_id": 1,
+          "note_title": "Fitness Goals",
+          "note_importancy": 0,
+          "note_detail": "Run 5 km, complete 50 push-ups, practice yoga.",
+          "note_description": "Working towards a healthier lifestyle and better fitness.",
+          "note_tags": ["fitness", "health", "exercise"]
+        },
+        {
+          "note_id": 2,
+          "note_title": "Recipe Ideas",
+          "note_importancy": 3,
+          "note_detail": "Try new pasta recipe, experiment with sushi at home.",
+          "note_description": "Exploring culinary skills and creating delicious dishes.",
+          "note_tags": ["cooking", "recipes", "food"]
+        }
+      ]
+    }
+  ]
+}
