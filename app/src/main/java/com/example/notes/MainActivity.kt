@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,17 +11,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,70 +33,90 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             NotesTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = Color.White
-                ) {
-                    Column (
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        NavigationButtons("Home")
-                        Row {
-                            CreateWidget (
-                                modifier = Modifier
-                                    .weight(2f / 3f)
-                                    .padding(12.dp, 12.dp, 6.dp, 12.dp)
-                            ) {
-                                // Your content composable here
-                                Column(
-                                    modifier = Modifier.fillMaxSize(),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
-                                ) {
-                                    Text(text = "Hello, Rounded Rectangle Content!")
-                                }
-                            }
-                            CreateWidget (
-                                modifier = Modifier
-                                    .weight(1f / 3f)
-                                    .padding(6.dp, 12.dp, 12.dp, 12.dp)
-                            ) {
-                                // Your content composable here
-                                Column(
-                                    modifier = Modifier.fillMaxSize(),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
-                                ) {
-                                    Text(text = "Hello, Rounded Rectangle Content!")
-                                }
-                            }
-                        }
-                        Spacer(modifier = Modifier.weight(1f))
-                        BottomNavigationBar()
-                    }
-                }
+                MainContent()
             }
         }
     }
 }
 
-
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+private fun MainContent() {
+    // A surface container using the 'background' color from the theme
+
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = colorResource(id = R.color.background)
+    ) {
+        Column (
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+        ) {
+            NavigationButtons("Home")
+            Row {
+                CreateWidget (
+                    title = "Plan forThe Day",
+                    modifier = Modifier
+                        .weight(1f / 2f)
+                        .padding(12.dp, 12.dp, 6.dp, 12.dp),
+                    backgroundColor = colorResource(id = R.color.widget_color_1)
+                ) { }
+                Column(
+                    modifier = Modifier
+                        .weight(1f / 2f)
+                ) {
+                    CreateWidget(
+                        title = "Add Notes",
+                        modifier = Modifier
+                            .padding(6.dp, 12.dp, 12.dp, 6.dp)
+                            .height(156.dp),
+                        backgroundColor = colorResource(id = R.color.widget_color_2)
+                    ) { }
+                    CreateWidget(
+                        title = "Add Notes",
+                        modifier = Modifier
+                            .padding(6.dp, 6.dp, 12.dp, 12.dp)
+                            .height(156.dp),
+                        backgroundColor = colorResource(id = R.color.widget_color_4)
+                    ) { }
+                }
+            }
+            CreateWidget (
+                title = "Add New Note",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(96.dp)
+                    .padding(12.dp, 12.dp, 12.dp, 12.dp),
+                backgroundColor = colorResource(id = R.color.widget_color_3)
+            ) {}
+            CreateWidget (
+                title = "Widget",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(96.dp)
+                    .padding(12.dp, 12.dp, 12.dp, 12.dp),
+                backgroundColor = colorResource(id = R.color.widget_color_4)
+            ) {}
+            CreateWidget (
+                title = "Widget",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(96.dp)
+                    .padding(12.dp, 12.dp, 12.dp, 12.dp),
+                backgroundColor = colorResource(id = R.color.accent)
+            ) {}
+            Spacer(modifier = Modifier.weight(1f))
+            BottomNavigationBar()
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+private fun GreetingPreview() {
     NotesTheme {
         Column {
-            Greeting("Android")
-            NavigationButtons("Home")
+            MainContent()
         }
     }
 }

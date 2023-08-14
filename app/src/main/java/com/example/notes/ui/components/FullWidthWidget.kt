@@ -16,22 +16,30 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.notes.R
 
 @Composable
 fun CreateWidget(
     modifier: Modifier = Modifier,
     width: Dp = 324.dp,
     height: Dp = 324.dp,
+    backgroundColor: Color = colorResource(id = R.color.secondary_lighter),
+    title: String,
     content: @Composable () -> Unit
 ) {
     RoundedRectangleContent(
         content = content, // Pass the provided content lambda
-        backgroundColor = Color.Yellow,
+        backgroundColor = backgroundColor,
+        title = title,
         modifier = modifier
             .width(width)
             .height(height)
@@ -44,13 +52,25 @@ private fun RoundedRectangleContent(
     backgroundColor: Color = MaterialTheme.colorScheme.primary,
     cornerRadius: Dp = 16.dp,
     padding: Dp = 16.dp,
+    title: String,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
-            .background(backgroundColor, shape = RoundedCornerShape(cornerRadius))
+            .shadow(
+                10.dp,
+                shape = RoundedCornerShape(cornerRadius),
+                spotColor = backgroundColor)
+            .background(backgroundColor)
             .padding(padding)
+
     ) {
+        Text(
+            title,
+            style = MaterialTheme.typography.titleMedium,
+            color = colorResource(id = R.color.primary),
+            maxLines = 2
+        )
         content() // Invoke the content lambda here to display the provided content
     }
 }
@@ -58,18 +78,17 @@ private fun RoundedRectangleContent(
 @Preview
 @Composable
 private fun RoundedRectangleWidgetPreview() {
-    CreateWidget {
+    CreateWidget(
+        title = "Hello, Rounded Rectangle Content!"
+    ) {
         // Your content composable here
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
+
         ) {
-            Text(text = "Hello, Rounded Rectangle Content!")
             Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = { /* Handle button click */ }) {
-                Text(text = "Click me!")
-            }
         }
     }
 }

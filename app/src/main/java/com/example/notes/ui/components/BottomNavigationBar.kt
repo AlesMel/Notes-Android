@@ -1,14 +1,11 @@
 package com.example.notes.ui.components
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalAbsoluteTonalElevation
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -16,15 +13,17 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.notes.R
 
@@ -40,10 +39,14 @@ fun BottomNavigationBar() {
     var selectedItem by remember { mutableStateOf(items[1]) }
 
     NavigationBar (
-        containerColor  = colorResource(id = R.color.BottomNavigationBarIconColor),
+        containerColor = colorResource(id = R.color.primary),
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(15.dp, 15.dp, 0.dp, 0.dp))
+            .height(56.dp)
+            .shadow(
+                elevation = 10.dp,
+                shape = RoundedCornerShape(topStart = 32.dp, topEnd = 30.dp)
+            )
     ) {
         items.forEach { item ->
             AddItem(
@@ -66,17 +69,19 @@ fun RowScope.AddItem(
     onItemSelected: (Boolean) -> Unit
 ) {
     NavigationBarItem(
-        label = {
-            if (selected) {
-                Text(screen.title, color = Color.White)
-            }
-        },
+//        label = {
+//            if (selected) {
+//                Text(
+//                    screen.title,
+//                    style = MaterialTheme.typography.labelSmall,
+//                )
+//            }
+//        },
         icon = {
             Icon(
                 painterResource(id = screen.icon),
                 contentDescription = screen.title,
-                modifier = if (selected) Modifier.size(32.dp) else Modifier.size(24.dp),
-                tint = Color.White
+                modifier = if (selected) Modifier.size(26.dp) else Modifier.size(16.dp),
             )
         },
         selected = selected,
@@ -86,8 +91,10 @@ fun RowScope.AddItem(
         },
         colors = androidx.compose.material3.NavigationBarItemDefaults
             .colors(
-                selectedIconColor = Color.White,
-                indicatorColor =  colorResource(id = R.color.BottomNavigationBarIconColor)
+                selectedIconColor = colorResource(id = R.color.primary),
+                unselectedIconColor = colorResource(id = R.color.accent),
+                selectedTextColor = colorResource(id = R.color.primary),
+                indicatorColor =  colorResource(id = R.color.accent)
             )
     )
 }
@@ -113,4 +120,9 @@ sealed class BottomNavItem(
             "Settings",
             R.drawable.settings_icon
         )
+}
+@Preview
+@Composable
+fun BottomBarPreview() {
+    BottomNavigationBar()
 }
